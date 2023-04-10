@@ -29,12 +29,13 @@ with open('H&mScrapes/H&M_images.csv', 'w', newline='', encoding='utf-8') as ima
     # Load meer 10 keer doen
     Loadmorebutton = driver.find_element(By.CSS_SELECTOR, 'button.button.js-load-more')
     teller = 0
-    for teller in range(10):
+    for teller in range(13):
         time.sleep(1)
         Loadmorebutton.click()
         # teller = teller + 1
 
     Truien = driver.find_elements(By.CSS_SELECTOR, 'a.item-link.remove-loading-spinner')
+    print(len(Truien))
     links = []                                        
     for i in Truien:
         links.append(i.get_attribute('href'))
@@ -69,10 +70,8 @@ with open('H&mScrapes/H&M_images.csv', 'w', newline='', encoding='utf-8') as ima
                 button.click()
                     
             Reviews = driver.find_elements(By.CSS_SELECTOR, 'p.BodyText-module--general__KTCW3.Review-module--reviewContent__TnZII')
-            print(f"Number of reviews found for image ID '{image_id}': {len(reviews)}")
+            # print(f"Number of reviews found for image ID '{image_id}': {len(reviews)}")
 
-            for review in Reviews:
-                reviews.append(review.text)
 
             for review in Reviews:
                 #write each review and its corresponding image ID to the review csv file
@@ -81,29 +80,6 @@ with open('H&mScrapes/H&M_images.csv', 'w', newline='', encoding='utf-8') as ima
                 # review_writer.writerow({'Image_ID': image_id, 'Review': '; '.join(reviews)})
                 review_file.flush()
 
-        #     print("button clicked")
-        #     image_writer.writerow({'Image_ID': image_id, 'IMG': src})
-
-
-        #     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        #     time.sleep(2)
-
-           
-        #     reviews = []
-            
-        
-        #     Reviews = driver.find_elements(By.CSS_SELECTOR, 'span.as_lt')
-        #     print(f"Number of reviews found for image ID '{image_id}': {len(reviews)}")
-
-        
-        #     for review in Reviews:
-        #         reviews.append(review.text)
-
-        #     for review in reviews:
-        #         # write each review and its corresponding image ID to the review csv file
-        #     print(f"image ID '{image_id}'")
-        #     review_writer.writerow({'Image_ID': image_id, 'Review': '; '.join(reviews)})
-        #     review_file.flush()
 
             
         except:
