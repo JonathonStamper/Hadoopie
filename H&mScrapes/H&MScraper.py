@@ -29,7 +29,7 @@ with open('H&mScrapes/H&M_images.csv', 'w', newline='', encoding='utf-8') as ima
     # Load meer 10 keer doen
     Loadmorebutton = driver.find_element(By.CSS_SELECTOR, 'button.button.js-load-more')
     teller = 0
-    for teller in range(13):
+    for teller in range(12):
         time.sleep(1)
         Loadmorebutton.click()
         # teller = teller + 1
@@ -40,14 +40,14 @@ with open('H&mScrapes/H&M_images.csv', 'w', newline='', encoding='utf-8') as ima
     for i in Truien:
         links.append(i.get_attribute('href'))
 
-
+    print(len(links))
     image_writer.writeheader()
     review_writer.writeheader()
     for link in links:
         driver.get(link)
         # i get the image here
         Div = driver.find_elements(By.CSS_SELECTOR, "div.product-detail-main-image-container")
-        Img = Div[0].find_element(By.CSS_SELECTOR, "img")
+        Img = Div[0].find_element(By.XPATH, "img")
         src = Img.get_attribute('src')
         image_id = str(uuid.uuid4())  # generate a unique identifier
 
@@ -63,7 +63,7 @@ with open('H&mScrapes/H&M_images.csv', 'w', newline='', encoding='utf-8') as ima
 
             time.sleep(1)
             reviews = [] 
-
+            
             MeerLezen = driver.find_elements(By.CSS_SELECTOR, 'button.CTA-module--action__AdoYs.CTA-module--medium__kRlC3.CTA-module--reset__ln67B.CTA-module--inline__ykOgZ')
 
             for button in MeerLezen:
