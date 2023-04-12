@@ -16,14 +16,14 @@ cookies = driver.find_element(By.ID, "onetrust-accept-btn-handler")
 cookies.click()
 
 
-with open('H&mScrapes/H&M_images.csv', 'w', newline='', encoding='utf-8') as image_file, \
-     open('H&mScrapes/H&M_reviews.csv', 'w', newline='', encoding='utf-8') as review_file:
+with open('Images_Data/H&M_images.csv', 'w', newline='', encoding='utf-8') as image_file, \
+     open('Reviews_Data/H&M_reviews.csv', 'w', newline='', encoding='utf-8') as review_file:
      
     # create the csv writers
-    image_fieldnames = ['H&M_Image_ID', 'H&M_IMG']
+    image_fieldnames = ['H&M_IMG']
     image_writer = csv.DictWriter(image_file, fieldnames=image_fieldnames)
 
-    review_fieldnames = ['H&M_Image_ID', 'H&M_Review']
+    review_fieldnames = ['H&M_Review']
     review_writer = csv.DictWriter(review_file, fieldnames=review_fieldnames)
 
     # Load meer 10 keer doen
@@ -49,7 +49,7 @@ with open('H&mScrapes/H&M_images.csv', 'w', newline='', encoding='utf-8') as ima
         Div = driver.find_elements(By.CSS_SELECTOR, "div.product-detail-main-image-container")
         Img = Div[0].find_element(By.XPATH, "img")
         src = Img.get_attribute('src')
-        image_id = str(uuid.uuid4())  # generate a unique identifier
+        # image_id = str(uuid.uuid4())  # generate a unique identifier
 
         # write the image source and its ID to the image csv file
         
@@ -59,7 +59,7 @@ with open('H&mScrapes/H&M_images.csv', 'w', newline='', encoding='utf-8') as ima
             ReviewButton = ReviewButtonSection.find_element(By.CSS_SELECTOR, 'button.CTA-module--action__AdoYs.CTA-module--medium__kRlC3.CTA-module--reset__ln67B')
 
             ReviewButton.click()
-            image_writer.writerow({'H&M_Image_ID': image_id, 'H&M_IMG': src})
+            image_writer.writerow({'H&M_IMG': src})
 
             time.sleep(1)
             reviews = [] 
@@ -75,8 +75,8 @@ with open('H&mScrapes/H&M_images.csv', 'w', newline='', encoding='utf-8') as ima
 
             for review in Reviews:
                 #write each review and its corresponding image ID to the review csv file
-                print(f"image ID '{image_id}'")
-                review_writer.writerow({'H&M_Image_ID': image_id, 'H&M_Review': review.text})
+                # print(f"image ID '{image_id}'")
+                review_writer.writerow({'H&M_Review': review.text})
                 # review_writer.writerow({'Image_ID': image_id, 'Review': '; '.join(reviews)})
                 review_file.flush()
 

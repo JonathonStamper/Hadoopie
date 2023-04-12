@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 import csv
 import uuid
 import time
+import hdfs
 
 url = 'https://www.wehkamp.nl/heren-kleding-truien/?soort-trui=gebreide-truien&pagina=1' 
 driver = webdriver.Edge()
@@ -12,15 +13,16 @@ driver.get(url)
 time.sleep(2)
 cookies = driver.find_element(By.XPATH, '//*[@id="header"]/aside[2]/div/div[1]/div/p[1]/a[1]')
 cookies.click()
-
-with open('WehkampScrapes/Wehkamp_images.csv', 'w', newline='', encoding='utf-8') as image_file, \
-     open('WehkampScrapes/Wehkamp_reviews.csv', 'w', newline='', encoding='utf-8') as review_file:
+# client = hdfs.InsecureClient('http://localhost:9870/')
+# client.write("/data/images.csv", csv.DictReader('C:\Users\Jonat\Documents\deds\week8\Hadoopie\Reviews_Data\H&M_reviews.csv'))
+with open('Images_Data/Wehkamp_images.csv', 'w', newline='', encoding='utf-8') as image_file, \
+     open('Reviews_Data/Wehkamp_reviews.csv', 'w', newline='', encoding='utf-8') as review_file:
      
     # create the csv writers
-    image_fieldnames = ['Wehkamp_Image_ID', 'Wehkamp_IMG']
+    image_fieldnames = ['Wehkamp_IMG']
     image_writer = csv.DictWriter(image_file, fieldnames=image_fieldnames)
 
-    review_fieldnames = ['Wehkamp_Image_ID', 'Wehkamp_Review']
+    review_fieldnames = ['Wehkamp_Review']
     review_writer = csv.DictWriter(review_file, fieldnames=review_fieldnames)
 
     PaginaNummer = 1
@@ -48,7 +50,7 @@ with open('WehkampScrapes/Wehkamp_images.csv', 'w', newline='', encoding='utf-8'
             ReviewButton = driver.find_element(By.CSS_SELECTOR, 'button.ReviewSummary__ba-review-link___PH5fZ.type-link-inline.inline-block.rating-link.margin-left-small.color-black-opacity-88')
             ReviewButton.click()
             
-            image_writer.writerow({'Wehkamp_Image_ID': image_id, 'Wehkamp_IMG': src})
+            image_writer.writerow({'Wehkamp_IMG': src})
 
             time.sleep(1)
 
@@ -69,7 +71,7 @@ with open('WehkampScrapes/Wehkamp_images.csv', 'w', newline='', encoding='utf-8'
             for review in Reviews:
                 #write each review and its corresponding image ID to the review csv file
                 #print(f"image ID '{image_id}'")
-                review_writer.writerow({'Wehkamp_Image_ID': image_id, 'Wehkamp_Review': review.text})
+                review_writer.writerow({'Wehkamp_Review': review.text})
                 #review_writer.writerow({'Image_ID': image_id, 'Review': '; '.join(reviews)})
                 review_file.flush()
 

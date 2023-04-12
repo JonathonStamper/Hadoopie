@@ -14,19 +14,19 @@ time.sleep(2)
 cookies = driver.find_element(By.CSS_SELECTOR, "button.uc-btn.uc-btn-primary")
 cookies.click()
 
-with open('ZalandoScrapes/Zalando2_images.csv', 'w', newline='', encoding='utf-8') as image_file, \
-     open('ZalandoScrapes/Zalando2_reviews.csv', 'w', newline='', encoding='utf-8') as review_file:
+with open('Images_Data/Zalando2_images.csv', 'w', newline='', encoding='utf-8') as image_file, \
+     open('Reviews_Data/Zalando2_reviews.csv', 'w', newline='', encoding='utf-8') as review_file:
      
     # create the csv writers
-    image_fieldnames = ['Zalando_Image_ID', 'Zalando_IMG']
+    image_fieldnames = ['Zalando_IMG']
     image_writer = csv.DictWriter(image_file, fieldnames=image_fieldnames)
 
-    review_fieldnames = ['Zalando_Image_ID', 'Zalando_Review']
+    review_fieldnames = ['Zalando_Review']
     review_writer = csv.DictWriter(review_file, fieldnames=review_fieldnames)
 
     links = []
     PaginaNummer = 1
-    for PaginaNummer in range(60): 
+    for PaginaNummer in range(20): 
         url_up = 'https://www.zalando.nl/herenkleding-truien-gebreidetruien/?p=' +str(PaginaNummer)
         driver.get(url_up)
         Truien = driver.find_elements(By.CSS_SELECTOR, 'a._LM.JT3_zV.CKDt_l.CKDt_l.LyRfpJ')
@@ -52,7 +52,7 @@ with open('ZalandoScrapes/Zalando2_images.csv', 'w', newline='', encoding='utf-8
             ReviewButton = driver.find_element(By.XPATH, '//*[@id="z-pdp-all-reviews"]')
             ReviewButton.click()
             
-            image_writer.writerow({'Zalando_Image_ID': image_id, 'Zalando_IMG': src})
+            image_writer.writerow({'Zalando_IMG': src})
 
             time.sleep(1)
 
@@ -66,7 +66,7 @@ with open('ZalandoScrapes/Zalando2_images.csv', 'w', newline='', encoding='utf-8
             for review in Reviews:
                 #write each review and its corresponding image ID to the review csv file
                 #print(f"image ID '{image_id}'")
-                review_writer.writerow({'Zalando_Image_ID': image_id, 'Zalando_Review': review.text})
+                review_writer.writerow({'Zalando_Review': review.text})
                 #review_writer.writerow({'Image_ID': image_id, 'Review': '; '.join(reviews)})
                 review_file.flush()
 
