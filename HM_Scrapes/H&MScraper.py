@@ -16,8 +16,8 @@ cookies = driver.find_element(By.ID, "onetrust-accept-btn-handler")
 cookies.click()
 
 
-with open('Images_Data/H&M_images.csv', 'w', newline='', encoding='utf-8') as image_file, \
-     open('Reviews_Data/H&M_reviews.csv', 'w', newline='', encoding='utf-8') as review_file:
+with open('HM_Scrapes/H&M_images.csv', 'w', newline='', encoding='utf-8') as image_file, \
+     open('HM_Scrapes/H&M_reviews.csv', 'w', newline='', encoding='utf-8') as review_file:
      
     # create the csv writers
     image_fieldnames = ['H&M_IMG']
